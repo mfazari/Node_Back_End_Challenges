@@ -11,11 +11,16 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//Set pug as view engine
+app.set('view engine', 'pug');
+
 app.route('/')
-  .get((req, res) => {
-    res.sendFile(process.cwd() + '/views/index.html');
-  });
+    .get((req, res) => {
+        res.render(process.cwd() + '/views/pug/index', {title: 'Hello', message: 'Please login'});
+        //res.sendFile(process.cwd() + '/views/index.html');
+    });
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log("Listening on port " + process.env.PORT);
+    console.log("Listening on port " + process.env.PORT);
 });
+
