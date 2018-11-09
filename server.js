@@ -5,6 +5,7 @@ const bodyParser  = require('body-parser');
 const fccTesting  = require('./freeCodeCamp/fcctesting.js');
 const session = require("express-session");
 const passport = require("passport");
+const mongodb = require("mongodb");
 
 const app = express();
 
@@ -30,6 +31,25 @@ app.route('/')
         res.render(process.cwd() + '/views/pug/index', {title: 'Hello', message: 'Please login'});
         //res.sendFile(process.cwd() + '/views/index.html');
     });
+
+passport.serializeUser((user, done) => {
+    done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+    done(null,null);
+    /*
+    db.collection('users').findOne(
+        {_id: new ObjectID(id)},
+        (err, doc) => {
+            done(null, doc);
+
+
+        }
+
+    )
+    */
+});
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Listening on port " + process.env.PORT);
